@@ -24,7 +24,7 @@ class Server {
         app.get("/", (req, res) => { res.json({ message: "Welcome to Node App" }) });
 
 
-        const PORT = process.env.PORT || 8083;
+        const PORT = process.env.PORT || 8085;
         // const IP = process.env.IP || "192.168.0.185";
         // const IP = process.env.IP || "192.168.0.111";
         // const IP = "172.20.10.3";
