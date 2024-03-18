@@ -51,6 +51,15 @@ class SocketService {
             sdpAnswer: sdpAnswer,
           });
         });
+
+        socket.on("endCall", (data) => {
+          let calleeId = data.calleeId;
+          
+          console.log(`endcall initiated with offerData ${JSON.stringify(data)}`);
+          socket.to(calleeId).emit("endCall", {message: "call ended"});
+
+        });
+  
   
         socket.on("IceCandidate", (data) => {
           let calleeId = data.calleeId;

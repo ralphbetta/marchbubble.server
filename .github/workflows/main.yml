@@ -1,0 +1,61 @@
+name: Build & Deploy
+on:
+  push:
+    branches: [main]
+
+jobs:
+
+  build_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v4
+        with: 
+          node-version: "21.x"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run test
+        run: npm test
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy Using SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{secrets.HOST}}
+          key: ${{secrets.SSHKEY}}
+          username: ${{secrets.USERNAME}}
+
+          script: |
+
+            # Check if the current directory exists, if not, create it
+            
+            cd ~/bubblemeet.online/server
+
+            # Fetch the secrets and echo the entire content to .env
+       
+            git init .  # Initialize a new Git repository if not already done
+
+            git remote add origin https://github.com/ralphbetta/marchbubble.server.git # Add your GitHub repository URL
+            # git remote set-url origin https://github.com/ralphbetta/marchbubble.server.git # FOR EXPIRED TOKENS
+            
+
+            git pull origin main
+
+            cp ./.example.env ./.env
+
+            npm prune
+            npm install
+            pm2 start index.js --name marchbubble ||  pm2 restart marchbubble --watch
+            echo 'Deployment successful to server'
+
+
+
+# pm2 restart ecosystem.confi.js --env production

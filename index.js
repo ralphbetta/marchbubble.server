@@ -13,7 +13,6 @@ class Server {
             allowedHeaders: ['Content-Type', 'Authorization'],
             credentials: true,
             preflightContinue: false,
-
             transports: ['websocket'],
             //allowedRequestHeaders: ['my-custom-header'], // Add any custom headers you need for WebSocket
         };
@@ -25,9 +24,6 @@ class Server {
 
 
         const PORT = process.env.PORT || 8085;
-        // const IP = process.env.IP || "192.168.0.185";
-        // const IP = process.env.IP || "192.168.0.111";
-        // const IP = "172.20.10.3";
         const IP = "127.0.0.1";
 
         /*--------------------------------------------------------
