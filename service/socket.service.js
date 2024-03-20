@@ -59,6 +59,14 @@ class SocketService {
           socket.to(calleeId).emit("endCall", {message: "call ended"});
 
         });
+
+        socket.on("sendMessage", (data) => {
+          let calleeId = data.to;
+        
+          console.log(`new message initiated with offerData ${JSON.stringify(data)}`);
+          socket.to(calleeId).emit("newMessage", data);
+
+        });
   
   
         socket.on("IceCandidate", (data) => {
